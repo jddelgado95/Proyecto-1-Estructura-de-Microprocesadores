@@ -71,3 +71,4 @@ and #(50) and2(c3,c2,cin);
 or #(50) or2(cout,c1,c3);
 endmodule 
 
+//fin del código
