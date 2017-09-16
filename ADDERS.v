@@ -70,3 +70,4 @@ or #(50) or1(c2,a,b);
 and #(50) and2(c3,c2,cin);
 or #(50) or2(cout,c1,c3);
 endmodule 
+
