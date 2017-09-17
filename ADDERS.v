@@ -19,11 +19,12 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+// este código es utilizado para realizar la suma y obtención de los bloques de bits  
 module ADDERS(S,A,B);
-output [31:0] S;
-input [31:0] A,B;
+output [31:0] S; //salida de 32 bits 
+input [31:0] A,B; //entrada de 32 bits 
 wire [31:0] C;
+//se obtiene cada uno de los bits ; son 32, por ello son 32 líneas(una para cada bit)
  adder1bit adder1bit0(S[0],C[0],A[0],B[0],1'b0);
  adder1bit adder1bit1(S[1],C[1],A[1],B[1],C[0]);
  adder1bit adder1bit2(S[2],C[2],A[2],B[2],C[1]);
@@ -60,8 +61,8 @@ wire [31:0] C;
 endmodule
 
 module adder1bit(sum,cout,a,b,cin);
-input   a,b,cin;
-output  cout,sum;
+input   a,b,cin; // a y b para la suma de los bits, y cin para el acarreo 
+output  cout,sum; // sum es el resultado de la suma y cout es del acarreo 
 // sum = a xor b xor cin
 xor #(50) (sum,a,b,cin);
 // carry out = a.b + cin.(a+b)
