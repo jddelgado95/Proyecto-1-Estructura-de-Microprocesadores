@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//codigo utilizado para el control de la ALU 
 module ALU_CTRL(ALUControl, ALUOp, Function);
 output [1:0] ALUControl;
 reg [1:0] ALUControl;
@@ -28,6 +28,7 @@ input [5:0] Function;
 wire [7:0] ALUControlIn;
 assign ALUControlIn = {ALUOp,Function};
 always @(ALUControlIn)
+ //se utiliza un case como un mux para que el programa seleccione la opcion correspondiente dependiendo de los selectores 
 casex (ALUControlIn)
  8'b11xxxxxx: ALUControl=2'b01;
  8'b00xxxxxx: ALUControl=2'b00;
