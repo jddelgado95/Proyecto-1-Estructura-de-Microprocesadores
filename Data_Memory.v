@@ -19,15 +19,18 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+//modulo utilizado pada la memoria de datos; lee los bits que entran, busca esa posicion y despliega el dato correspondiente
+//, o bien, escribe el dato en la memoria 
 
 module Data_Memory(data, address, writedata, writeenable,MemRead,clk);
 
 input [31:0] address, writedata;
-input writeenable,MemRead, clk;
+input writeenable,MemRead, clk; //el enable es utilizado en caso de que deba escribir en la memoria
 output [31:0] data;
 reg [7:0] datamem[1023:0];
 reg [31:0] temp;
 
+//son 32 bits los que se deben tomar en cuenta
 buf #1000 buf0(data[0],temp[0]),
    buf1(data[1],temp[1]),
    buf2(data[2],temp[2]),
