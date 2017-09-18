@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//modulo encargado de realizar los saltos(jumps) cuando la ALU indique que se debe realizar  
 module JUMP_CTRL(JRControl, ALUOp, Function);
 output JRControl;
 reg JRControl;
