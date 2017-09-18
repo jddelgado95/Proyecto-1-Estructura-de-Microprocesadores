@@ -19,7 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//este modulo es utilizado para trabajar los 32 bits de entrada en la ALU. 
+//este modulo realiza las operaciones de la ALU 
 module ALU_MIPS(Output, CarryOut, zero, overflow, negative, BussA, BussB, ALUControl);
 
 output CarryOut,overflow,negative,zero;
@@ -82,6 +83,8 @@ or #(50) or10(o10,o5,o6,o7,o8);
 nor #(50) nor1(zero,o9,o10);
 endmodule
 
+//este modulo trabaja con el bit que decide que tipo de operacion debe realizar 
+
 `timescale 1 ps / 100 fs
 module alu1bit(result,crrout,a,b,carryin,less,ALUControl);
 output result,crrout;
@@ -93,6 +96,8 @@ mux21 mux2(xorlessOut,xorOut,less,ALUControl[1]);
 mux21 mux3(result,addsubOut,xorlessOut,ALUControl[0]);
 endmodule
 
+//la siguiente parte se encarga directamente del resultado y el carry de salida 
+
 `timescale 1 ps / 100 fs
 module addsub(Out,cout,a,b,cin,select);
 input a,b,cin,select;
@@ -102,6 +107,8 @@ mux21 mux1(b1,b,notb,select);
 
 adder adder1(Out,cout,a,b1,cin);
 endmodule
+
+//se realiza un sumador para los registros de entrada, con el carry de entrada y salida 
 
 `timescale 1 ps / 100 fs
 module adder(sum,cout,a,b,cin);
@@ -115,6 +122,8 @@ or #(50) or1(c2,a,b);
 and #(50) and2(c3,c2,cin);
 or #(50) or2(cout,c1,c3);
 endmodule 
+
+// se usa un mux para seleccionar uno de los registros de entrada de la ALU 
 
 `timescale 1 ps / 100 fs
 module mux21(O,A,B,sel);
