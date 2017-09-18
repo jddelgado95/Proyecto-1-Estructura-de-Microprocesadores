@@ -19,13 +19,14 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//modulo para la extension de signo
 module ExtSigno_Shft2(sOut32,sIn16); //Out32, In32 son del shift
 output [31:0] sOut32;
 input [15:0] sIn16;
 assign sOut32 = {{16{sIn16[15]}},sIn16};
 endmodule
 
+//modulo para realizar el shift left cuando se requiera 
 module shift_left_2(Out32, In32);
 output [31:0] Out32;
 input [31:0] In32;
