@@ -19,17 +19,21 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+// modulo para el control de los branches 
 module BRANCH_CTRL(
 ID_RegDst,ID_ALUSrc, ID_MemtoReg,ID_RegWrite,ID_MemRead,ID_MemWrite,
 ID_Branch,ID_ALUOp,ID_JRControl,flush,RegDst,ALUSrc,MemtoReg,RegWrite,
 MemRead,MemWrite,Branch,ALUOp,JRControl);
+  
+//las entradas son los selectores de cada etapa del MIPS
+//por lo tanto, las salidas van a ser estos mismos selectores que pueden cambiar o mantenerse dependiendo de si se hace un branch o no
 
 output ID_RegDst,ID_ALUSrc,ID_MemtoReg,ID_RegWrite,ID_MemRead,ID_MemWrite,ID_Branch,ID_JRControl;
 output [1:0] ID_ALUOp;
 input flush,RegDst,ALUSrc,MemtoReg,RegWrite,MemRead,MemWrite,Branch,JRControl;
 input [1:0] ALUOp;
 
+//se utilizan ands para que el branch se realice si cumplen condiciones simultaneas 
 not #50 (notflush,flush);
 and #50 and1(ID_RegDst,RegDst,notflush);
 and #50 and2(ID_ALUSrc,ALUSrc,notflush);
@@ -43,9 +47,7 @@ and #50 and9(ID_ALUOp[1],ALUOp[1],notflush);
 and #50 and10(ID_ALUOp[0],ALUOp[0],notflush);
 endmodule
 `timescale 1 ps / 100 fs
-// fpga4student.com: FPGA projects, Verilog Projects, VHDL projects
-// Verilog project: 32-bit 5-stage Pipelined MIPS Processor in Verilog 
-// Discard instructions when needed
+// para descartar instrucciones cuando se necesite 
 module Discard_Instr(ID_flush,IF_flush,jump,bne,jr);
 output ID_flush,IF_flush;
 input jump,bne,jr;
