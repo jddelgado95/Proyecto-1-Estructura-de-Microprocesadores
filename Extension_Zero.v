@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//modulo encargado de hacer la operacion de extendecion de zeros 
 module Extension_Zero(zOut32,zIn16);
 output [31:0] zOut32;
 input [15:0] zIn16;
