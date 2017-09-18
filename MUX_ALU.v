@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//mux para una de las entradas de la ALU
 module MUX_ALU(DataOut,A,B,C,Select);
 output [31:0] DataOut;
 input [1:0] Select;
