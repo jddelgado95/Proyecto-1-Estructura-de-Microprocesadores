@@ -19,6 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
+// codigo de la unidas de atascamiento 
 
 module Atasca_UNIT(PC_WriteEn,IFID_WriteEn,Stall_flush,EX_MemRead,EX_rt,ID_rs,ID_rt,ID_Op);
 output PC_WriteEn,IFID_WriteEn,Stall_flush;
