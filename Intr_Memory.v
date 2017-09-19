@@ -19,14 +19,15 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//modulo para la memoria a nivel interno
 module Intr_Memory(instruction, address);
 
-input [31:0] address;
-output [31:0] instruction;
-reg [31:0]instrmem[1023:0];
+input [31:0] address; //32 bits que indican la dirección de memoria a la que va
+output [31:0] instruction; //despliega la instrucción de la dirección correspondiente
+reg [31:0]instrmem[1023:0]; //memoria de 1024 bytes
 reg [31:0] temp;
-
+   
+//son 32 bits, por eso 32 buf
 buf #1000 buf0(instruction[0],temp[0]),
    buf1(instruction[1],temp[1]),
    buf2(instruction[2],temp[2]),
@@ -67,7 +68,7 @@ end
 
 initial
 begin
-$readmemb("instr.txt", instrmem);
+$readmemb("instr.txt", instrmem); //busca la instrucción en un txt
 end
 
 endmodule
