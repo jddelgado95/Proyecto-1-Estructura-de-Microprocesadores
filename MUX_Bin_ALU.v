@@ -27,6 +27,8 @@ input Select;
 // neu Select = 0 thi DataOut = Data0
 // nguoc lai thi DataOut = Data1
 
+  //mux de 2 a 1 que recibe y genera una salida de 32 bits.
+  //Cada bit se busca por su DataOut, Data 0 O Data 1(el que se necesite) y la selección.
 mux2_1 mux0(DataOut[0],Data0[0],Data1[0],Select);
 mux2_1 mux1(DataOut[1],Data0[1],Data1[1],Select);
 mux2_1 mux2(DataOut[2],Data0[2],Data1[2],Select);
