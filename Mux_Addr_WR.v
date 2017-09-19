@@ -19,7 +19,8 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//mux que se encuentra en el bloque de Acceso de Memoria
+//se encarga de seleccionar la dirección que va a entrar en el Fetch; ya sea proveniente de la ALU o del Registro EX/MEM
 module Mux_Addr_WR( AddrOut,Addr0, Addr1, Select);
 output [4:0] AddrOut; // Address Out
 input [4:0] Addr0, Addr1; // Address In 1 and 2
