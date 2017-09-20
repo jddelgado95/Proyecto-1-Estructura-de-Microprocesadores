@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//Register File con sus respectivas entradas y salidas que se encuentran en el diagrama del microprocesador
 module RegisterFile(ReadData1,
 ReadData2,
 WriteData,
@@ -39,6 +39,7 @@ wire [31:0] RegArray [0:31];
 integer i;
      //----Decoder Block
  decoder Decoder1( WriteEn,RegWrite,WriteRegister);
+ //Decodifica la instruccion desde el bit 0 hasta el bit 31
  register reg0 (RegArray[0],32'b0,1'b1,1'b0, clk);
  register reg1 (RegArray[1],WriteData,WriteEn[1],reset,clk);
  register reg2 (RegArray[2],WriteData,WriteEn[2],reset,clk);
@@ -71,6 +72,7 @@ integer i;
  register reg29 (RegArray[29],WriteData,WriteEn[29],reset,clk);
  register reg30 (RegArray[30],WriteData,WriteEn[30],reset,clk);
  register reg31 (RegArray[31],WriteData,WriteEn[31],reset,clk); 
+     
  //----32x32to32 Multiplexor1 Block----
     mux32x32to32 Mux1(ReadData1,RegArray[0], RegArray[1],RegArray[2], RegArray[3],RegArray[4],RegArray[5],RegArray[6],RegArray[7],
  RegArray[8],RegArray[9],RegArray[10],RegArray[11],RegArray[12],RegArray[13],RegArray[14],RegArray[15],RegArray[16],RegArray[17],
@@ -90,20 +92,21 @@ endmodule
 module D_FF (q, d, reset, clk);
 output q;
 input d, reset, clk;
-reg q; // Indicate that q is stateholding
+reg q; // Indica que q esta en un estado de espera
  
 always @(posedge clk or posedge reset)
+ //flip flop
 if (reset)
-q = 0; // On reset, set to 0
+q = 0; // Estado de reset
 else
-q = d; // Otherwise out = d 
+q = d; // Sino esta en reset entonces asigna el siguiente estado d 
 endmodule
-
+//------------------------------------------
 module RegBit(BitOut, BitData, WriteEn,reset, clk);
-output BitOut; // 1 bit of register
+output BitOut; // 1 bit para el registro de 32
 input BitData, WriteEn; 
 input reset,clk;
-wire d,f1, f2; // input of D Flip-Flop
+wire d,f1, f2; // Entrada del Flip Flop D
 wire reset;
 //assign reset=0;
 and #(50) U1(f1, BitOut, (~WriteEn));
@@ -112,7 +115,7 @@ or  #(50) U3(d, f1, f2);
 D_FF DFF0(BitOut, d, reset, clk);
 endmodule
 
-//32 bit register 
+//Registro de 32 bits, aca se puede escribir una instruccion, se compone de los 32 RegBit del modulo pasado
 module register(RegOut,RegIn,WriteEn,reset,clk); 
 output [31:0] RegOut;
 input [31:0] RegIn;
@@ -152,7 +155,7 @@ RegBit bit0 (RegOut[0], RegIn[0], WriteEn,reset,clk);
 
 endmodule
 
-// Decoder 
+// Decodificador 
 module decoder(WriteEn,RegWrite, WriteRegister);
 input RegWrite;
 input [4:0] WriteRegister;
