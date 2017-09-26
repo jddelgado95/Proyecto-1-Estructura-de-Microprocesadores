@@ -68,7 +68,7 @@ end
 
 initial
 begin
-$readmemb("instr.txt", instrmem); //busca la instrucción en un txt
+$readmemb("C:/Users/Sebasti�n/Documents/GitHub/Proyecto-1-Estructura-de-Microprocesadores/instr.txt", instrmem); //busca la instrucción en un txt
 end
 
 endmodule

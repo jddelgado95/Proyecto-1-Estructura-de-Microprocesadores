@@ -20,8 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module MICROPROCESADOR(clk, reset);
+module MICROPROCESADOR(clk, reset,op,immm,func,pc,s16,s17,s18, s19,s20,s21, valormem);
 input clk, reset;
+output [5:0]op,func;
+output [15:0]immm;
+output [31:0] pc;
+output [31:0] s16,s17,s18,s19,s20,s21, valormem;
 wire [31:0] PC, PCin;
 wire [31:0] PC4,ID_PC4,EX_PC4;
 wire [31:0] PCbne,PC4bne,PCj,PC4bnej,PCjr; // PC signals in MUX
@@ -67,7 +71,6 @@ register PC_Reg(PC,PCin,PC_WriteEn,reset,clk);
 ADDERS Add1(PC4,PC,{29'b0,3'b100}); // PC4 = PC + 4
 
 Intr_Memory InstructionMem1(Instruction, PC);
-
 // register IF/ID
 
 register IFID_PC4(ID_PC4,PC4,IFID_WriteEn,reset,clk);
@@ -81,6 +84,10 @@ assign rs = ID_Instruction[25:21];
 assign rt = ID_Instruction[20:16];
 assign rd = ID_Instruction[15:11];
 assign imm16= ID_Instruction[15:0];
+
+assign op = Opcode;
+assign func = Function;
+assign immm = imm16;
 
  // Main Control
 Unidad_CTRL MainControl(
@@ -96,7 +103,7 @@ Jump,
 SignZero,
 Opcode
 );
-
+wire [31:0] s0,s1,s2,s3,s4,s5;
  // Regfile
 RegisterFile Register_File(
 ReadData1,
@@ -107,7 +114,7 @@ rt,
 WB_WriteRegister,
 WB_RegWrite,
 reset,
-clk);
+clk,s0,s1,s2,s3,s4,s5);
 
 // forward Read Data if Write and Read at the same time
 WB_FORW_UNIT  WB_forward_block(ReadData1Out,ReadData2Out,ReadData1,ReadData2,rs,rt,WB_WriteRegister,WB_WriteData,WB_RegWrite);
@@ -119,7 +126,7 @@ Extension_Zero zero_extend1(zero_ext_out,imm16);
 MUX_Bin_ALU muxSignZero( Im16_Ext,sign_ext_out,zero_ext_out, SignZero);
 
 JUMP_CTRL JRControl_Block1( JRControl, ALUOp, Function);
-
+wire ID_flush;
 Discard_Instr Discard_Instr_Block(ID_flush,IF_flush,JumpControl,bneControl,EX_JRControl);
 
 or #(50) OR_flush(flush,ID_flush,IFID_flush,Stall_flush);
@@ -227,5 +234,12 @@ MUX_Bin_ALU  muxJump( PC4bnej,PC4bne, PCj, JumpControl);
  // JR: Jump Register
 assign PCjr = Bus_A_ALU;
 MUX_Bin_ALU  muxJR( PCin,PC4bnej, PCjr, EX_JRControl);
- 
+assign pc = PC;
+assign s16 = s0;
+assign s17 = s1;
+assign s18 = s2;
+assign s19 = s3;
+assign s20 = s4;
+assign s21 = s5;
+assign valormem = MEM_ReadDataOfMem;
 endmodule

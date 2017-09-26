@@ -28,16 +28,16 @@ ReadRegister2,
 WriteRegister,
 RegWrite,
 reset,
-clk);
+clk, s0,s1,s2,s3,s4,s5);
 
 input [4:0]ReadRegister1,ReadRegister2,WriteRegister;
 input [31:0] WriteData;
 input RegWrite,reset, clk;
-output [31:0] ReadData1, ReadData2;
+output [31:0] ReadData1, ReadData2,s0,s1,s2,s3,s4,s5 ;
 wire [31:0] WriteEn;
 wire [31:0] RegArray [0:31];
 integer i;
-     //----Decoder Block
+     //Bloque decodificador
  decoder Decoder1( WriteEn,RegWrite,WriteRegister);
  //Decodifica la instruccion desde el bit 0 hasta el bit 31
  register reg0 (RegArray[0],32'b0,1'b1,1'b0, clk);
@@ -71,7 +71,16 @@ integer i;
  register reg28 (RegArray[28],WriteData,WriteEn[28],reset,clk);
  register reg29 (RegArray[29],WriteData,WriteEn[29],reset,clk);
  register reg30 (RegArray[30],WriteData,WriteEn[30],reset,clk);
- register reg31 (RegArray[31],WriteData,WriteEn[31],reset,clk); 
+ register reg31 (RegArray[31],WriteData,WriteEn[31],reset,clk);
+ 
+ wire [31:0] s0,s1,s2,s3,s4,s5;
+ 
+ assign s0 = RegArray[16];
+ assign s1 = RegArray[17];
+ assign s2 = RegArray[18];
+ assign s3 = RegArray[19];
+ assign s4 = RegArray[20];
+ assign s5 = RegArray[21]; 
      
  //----32x32to32 Multiplexor1 Block----
     mux32x32to32 Mux1(ReadData1,RegArray[0], RegArray[1],RegArray[2], RegArray[3],RegArray[4],RegArray[5],RegArray[6],RegArray[7],
@@ -153,6 +162,8 @@ RegBit bit2 (RegOut[2], RegIn[2], WriteEn,reset,clk);
 RegBit bit1 (RegOut[1], RegIn[1], WriteEn,reset,clk); 
 RegBit bit0 (RegOut[0], RegIn[0], WriteEn,reset,clk); 
 
+
+
 endmodule
 
 // Decodificador 
@@ -199,10 +210,17 @@ endmodule
 module andmore(g,a,b,c,d,e);
   output g;
   input a,b,c,d,e;
+  wire f1;
   and #(50) and1(f1,a,b,c,d),
             and2(g,f1,e);
 endmodule
 module dec5to32(Out,Adr);
+wire Nota;
+wire Notb;
+wire Notc;
+wire Notd;
+wire Note;
+
 input [4:0] Adr; // Adr=Address of register
 output [31:0] Out;
 not #(50) Inv4(Nota, Adr[4]);
@@ -251,6 +269,7 @@ output Out;
 input [31:0] In; 
 input [4:0] Select; 
 wire [31:0] OE,f; // OE = Output Enable
+wire g8,g9,g7,g6,g5,g4,g3,g2,g10,g11,g12,g13;
 dec5to32 dec1(OE,Select);
 
  and  #(50) g_0(f[0],OE[0],In[0]);
